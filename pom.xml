@@ -10,7 +10,7 @@
 
     <groupId>org.webjars</groupId>
     <artifactId>govuk-frontend</artifactId>
-    <version>3.11.0</version>
+    <version>3.11.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>govuk-frontend</name>
@@ -38,7 +38,7 @@
         <url>http://github.com/webjars/govuk-frontend</url>
         <connection>scm:git:https://github.com/webjars/govuk-frontend.git</connection>
         <developerConnection>scm:git:https://github.com/webjars/govuk-frontend.git</developerConnection>
-        <tag>govuk-frontend-3.11.0</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <properties>
