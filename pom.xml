@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
+
+    <groupId>org.webjars</groupId>
+    <artifactId>govuk-frontend</artifactId>
+    <version>3.11.0</version>
+    <packaging>jar</packaging>
+
+    <name>govuk-frontend</name>
+    <description>WebJar for govuk-frontend</description>
+    <url>http://webjars.org</url>
+
+    <developers>
+        <developer>
+            <id>MatthewAtHull</id>
+            <name>Matthew Smith</name>
+            <email>m.smith-2018@hull.ac.uk</email>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>MIT</name>
+            <url>https://raw.githubusercontent.com/alphagov/govuk-frontend/master/LICENSE.txt</url>
+            <distribution>repo</distribution>
+            <comments>Copyright (C) 2017 Crown Copyright (Government Digital Service)</comments>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>http://github.com/webjars/govuk-frontend</url>
+        <connection>scm:git:https://github.com/webjars/govuk-frontend.git</connection>
+        <developerConnection>scm:git:https://github.com/webjars/govuk-frontend.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <upstream.url>
+            https://github.com/alphagov/govuk-frontend/releases/download/v${project.version}/release-v${project.version}.zip
+        </upstream.url>
+        <destDir>
+            ${project.build.outputDirectory}/META-INF/resources/webjars/${project.artifactId}/${project.version}
+        </destDir>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.jamesward</groupId>
+                <artifactId>unsnapshot-maven-plugin</artifactId>
+                <version>0.2</version>
+                <executions>
+                    <execution>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>unsnapshot</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <echo message="download archive"/>
+                                <get src="${upstream.url}" dest="${project.build.directory}/${project.artifactId}.zip"/>
+                                <echo message="unzip archive"/>
+                                <unzip src="${project.build.directory}/${project.artifactId}.zip"
+                                       dest="${project.build.directory}"/>
+                                <echo message="relativising asset paths"/>
+                                <exec executable="sed">
+                                    <arg value="-ie"/>
+                                    <arg value="s|/assets/|assets/|g"/>
+                                    <arg value="${project.build.directory}/${project.artifactId}-${version.unsnapshot}.min.css"/>
+                                    <arg value="${project.build.directory}/${project.artifactId}-ie8-${version.unsnapshot}.min.css"/>
+                                </exec>
+                                <echo message="moving resources"/>
+                                <move file="${project.build.directory}/${project.artifactId}-${version.unsnapshot}.min.css"
+                                      tofile="${destDir}/govuk-frontend.min.css"/>
+                                <move file="${project.build.directory}/${project.artifactId}-ie8-${version.unsnapshot}.min.css"
+                                      tofile="${destDir}/govuk-frontend-ie8.min.css"/>
+                                <move file="${project.build.directory}/${project.artifactId}-${version.unsnapshot}.min.js"
+                                      tofile="${destDir}/govuk-frontend.min.js"/>
+                                <move todir="${destDir}/assets">
+                                    <fileset dir="${project.build.directory}/assets"/>
+                                </move>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.8</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>sonatype-nexus-staging</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
