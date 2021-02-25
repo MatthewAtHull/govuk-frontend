@@ -12,7 +12,7 @@
 
     <groupId>org.webjars</groupId>
     <artifactId>govuk-frontend</artifactId>
-    <version>3.11.0</version>
+    <version>3.11.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>govuk-frontend</name>
@@ -46,7 +46,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <upstream.url>
-            https://github.com/alphagov/govuk-frontend/releases/download/v${project.version}/release-v${project.version}.zip
+            https://github.com/alphagov/govuk-frontend/releases/download/v${version.unsnapshot}/release-v${version.unsnapshot}.zip
         </upstream.url>
         <destDir>
             ${project.build.outputDirectory}/META-INF/resources/webjars/${project.artifactId}/${project.version}
