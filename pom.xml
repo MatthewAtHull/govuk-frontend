@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -12,7 +10,7 @@
 
     <groupId>org.webjars</groupId>
     <artifactId>govuk-frontend</artifactId>
-    <version>3.11.0-SNAPSHOT</version>
+    <version>3.11.0</version>
     <packaging>jar</packaging>
 
     <name>govuk-frontend</name>
@@ -40,7 +38,7 @@
         <url>http://github.com/webjars/govuk-frontend</url>
         <connection>scm:git:https://github.com/webjars/govuk-frontend.git</connection>
         <developerConnection>scm:git:https://github.com/webjars/govuk-frontend.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>govuk-frontend-3.11.0</tag>
     </scm>
 
     <properties>
@@ -81,27 +79,23 @@
                         </goals>
                         <configuration>
                             <target>
-                                <echo message="download archive"/>
-                                <get src="${upstream.url}" dest="${project.build.directory}/${project.artifactId}.zip"/>
-                                <echo message="unzip archive"/>
-                                <unzip src="${project.build.directory}/${project.artifactId}.zip"
-                                       dest="${project.build.directory}"/>
-                                <echo message="relativising asset paths"/>
+                                <echo message="download archive" />
+                                <get src="${upstream.url}" dest="${project.build.directory}/${project.artifactId}.zip" />
+                                <echo message="unzip archive" />
+                                <unzip src="${project.build.directory}/${project.artifactId}.zip" dest="${project.build.directory}" />
+                                <echo message="relativising asset paths" />
                                 <exec executable="sed">
-                                    <arg value="-ie"/>
-                                    <arg value="s|/assets/|assets/|g"/>
-                                    <arg value="${project.build.directory}/${project.artifactId}-${version.unsnapshot}.min.css"/>
-                                    <arg value="${project.build.directory}/${project.artifactId}-ie8-${version.unsnapshot}.min.css"/>
+                                    <arg value="-ie" />
+                                    <arg value="s|/assets/|assets/|g" />
+                                    <arg value="${project.build.directory}/${project.artifactId}-${version.unsnapshot}.min.css" />
+                                    <arg value="${project.build.directory}/${project.artifactId}-ie8-${version.unsnapshot}.min.css" />
                                 </exec>
-                                <echo message="moving resources"/>
-                                <move file="${project.build.directory}/${project.artifactId}-${version.unsnapshot}.min.css"
-                                      tofile="${destDir}/govuk-frontend.min.css"/>
-                                <move file="${project.build.directory}/${project.artifactId}-ie8-${version.unsnapshot}.min.css"
-                                      tofile="${destDir}/govuk-frontend-ie8.min.css"/>
-                                <move file="${project.build.directory}/${project.artifactId}-${version.unsnapshot}.min.js"
-                                      tofile="${destDir}/govuk-frontend.min.js"/>
+                                <echo message="moving resources" />
+                                <move file="${project.build.directory}/${project.artifactId}-${version.unsnapshot}.min.css" tofile="${destDir}/govuk-frontend.min.css" />
+                                <move file="${project.build.directory}/${project.artifactId}-ie8-${version.unsnapshot}.min.css" tofile="${destDir}/govuk-frontend-ie8.min.css" />
+                                <move file="${project.build.directory}/${project.artifactId}-${version.unsnapshot}.min.js" tofile="${destDir}/govuk-frontend.min.js" />
                                 <move todir="${destDir}/assets">
-                                    <fileset dir="${project.build.directory}/assets"/>
+                                    <fileset dir="${project.build.directory}/assets" />
                                 </move>
                             </target>
                         </configuration>
